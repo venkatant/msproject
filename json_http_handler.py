@@ -85,6 +85,6 @@ class HttpJsonHandler:
 
 switchid = "00:00:00:00:00:00:00:01"
 flow = HttpJsonHandler()
-flow.gethostinfo()
+flow.getnodeinfo()
 
 flow.getlinkinfo(switchid)

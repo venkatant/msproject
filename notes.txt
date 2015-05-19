@@ -1,0 +1,49 @@
+Setting UP of environment:
+==========================
+https://developer.cisco.com/site/openSDN/documents/design-guide/#cisco-open-sdn-controller-1-0-network-service-design-guidelines
+https://ask.opendaylight.org/question/1509/if-i-download-helium-how-can-i-modify-source-code/
+
+Install Java:
+============
+sudo apt-get install openjdk-7-jre
+
+Setting JAVA_HOME path to bring the ODL up
+==========================================
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-amd64/
+
+
+Basic Features that needs to be installed:
+==========================================
+feature:install odl-restconf-all odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
+feature:install odl-flow-model odl-flow-services
+feature:install odl-restconf-all
+feature:install odl-base-all odl-aaa-authn odl-restconf odl-nsf-all odl-adsal-northbound odl-mdsal-apidocs odl-ovsdb-openstack odl-ovsdb-northbound odl-dlux-core
+
+ODL User Interface DLUX:
+========================
+http://localhost:8181/dlux/index.html#/login
+
+Install Tkinter if missing
+==========================
+apt-get install python3-tk
+
+
+Link DOWN STATUS using below URL:
+==================================
+http://localhost:8181/restconf/operational/opendaylight-inventory:nodes/
+
+<node-connector><id>openflow:2:2</id>
+                <advertised-features/>
+                    <state>
+                          <blocked>false</blocked>
+                          <link-down>true</link-down>
+                          <live>false</live></state>
+
+
+
+http://127.0.0.1:8181/restconf/operational/network-topology:network-topology/
+http://127.0.0.1:8181/apidoc/explorer/index.html#!/network-topology%282013-10-21%29
+http://localhost:8181/restconf/operational/network-topology:network-topology/
+
+
+http://www.learningpython.com/2006/02/19/creating-a-gui-in-python-using-tkinter-part-2/

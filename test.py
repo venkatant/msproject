@@ -1,35 +1,25 @@
-__author__ = 'venkat'
+from tkinter import*
+root=Tk()
+sizex = 600
+sizey = 400
+posx  = 40
+posy  = 20
+root.wm_geometry("%dx%d+%d+%d" % (sizex, sizey, posx, posy))
+itemsforlistbox=['one','two','three','four','five','six','seven']
 
-'''
-from tkinter import *
+def CurSelet(evt):
+    mylistbox = evt.widget
+    value=str((mylistbox.get(mylistbox.curselection())))
+    print(value)
 
-toplevel = Tk()
-toplevel.title("Port Statistics")
-toplevel.geometry("1000x1000")
+def mylist():
+    mylistbox=Listbox(root,width=60,height=10,font=('times',13))
+    mylistbox.bind('<<ListboxSelect>>',CurSelet)
+    mylistbox.place(x=32,y=90)
 
-rows = []
-for i in range(3):
-    cols = []
-    for j in range(4):
-        e = Entry(toplevel, relief=RIDGE)
-        e.grid(row=i, column=j, sticky=NSEW)
-        if i == 0:
-            if j == 0:
-                e.insert(END, "  No Of Rx Packets")
-            elif j == 1:
-                e.insert(END, "  No Of Rx Packets")
-            elif j == 2:
-                e.insert(END, "  No Of Rx Drops")
-            elif j == 3:
-                e.insert(END, "  No Of Tx Packets")
-            elif j == 4:
-                e.insert(END, "  No Of TxPackets")
-            elif j == 5:
-                e.insert(END, "  No Of TxPackets")
-        cols.append(e)
-    rows.append(cols)
+    for items in itemsforlistbox:
+        mylistbox.insert(END,items)
 
-toplevel.mainloop()
+mylist()
 
-'''
-
+root.mainloop()

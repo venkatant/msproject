@@ -1,44 +1,16 @@
 __author__ = 'venkat'
 
-
-from tkinter import *
-
-import httplib2
-import json
-import time
-from header import *
+import tkinter
 from host_tracker import *
 from link_monitoring import *
 from port_statistics import *
-
-def mdumpfunction():
-    return
+from flow_statistics import *
 
 def deepinspectionofpacket():
     return
 
-def flowstatistics():
-    toplevel = Toplevel()
-    toplevel.geometry("500x500")
-    toplevel.title("Flow Statistics Per Switch")
-
-    scrollbar = Scrollbar(toplevel)
-    nodelist = Listbox(toplevel, yscrollcommand=scrollbar.set)
-
-    for line in range(100):
-        nodelist.insert(END, "00:00:00:00:00:00:" + str(line))
-
-    nodelist.pack(side=LEFT, fill=BOTH)
-    scrollbar.pack(side=LEFT, fill=Y)
-
-    # nodelist.bind('<<ListboxSelect>>', mdumpfunction)
-
-    scrollbar.config(command=nodelist.yview)
-    submit = Button(toplevel, text="Submit", command=mdumpfunction)
-
-    submit.pack()
-
-    return
+def mdumpfunction(self):
+        return
 
 def display_link_status():
     rows = []
@@ -61,6 +33,13 @@ def mLinkFaultMenu():
 
     return
 
+def create_button_with_scoped_image(root):
+    img = tkinter.PhotoImage(file="78.png")  # reference PhotoImage in local variable
+    button = tkinter.Label(root, image=img)
+    button.img = img
+    button.place(x=10, y=10, relwidth=1, relheight=1)
+    button.grid()
+
 def start():
     root = Tk()
 
@@ -70,11 +49,12 @@ def start():
     mainMenu = Menu(root)
 
     # Configure Menu for main Menu
-    root.config(menu=mainMenu)
-    root.title("Network Monitoring Application")
-    root.geometry("800x500")
+    root.config(menu=mainMenu, bg="orange")
+    root.title("Welcome to Network Monitoring System")
+    root.geometry("605x300")
 
     # Insert Image in Main Page
+    create_button_with_scoped_image(root)
 
     # SubMenu which is now 'fault Menu'
     faultMenu = Menu(mainMenu)
