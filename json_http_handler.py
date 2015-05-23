@@ -9,6 +9,14 @@ from rest_url_database import *
 class HttpJsonHandler:
     def __init__(self):
         print("Inside Class - HttpJsonHandler Constructor")
+        self.resp  = None
+        self.nodes = None
+        self.flows = None
+        self.ports = None
+        self.hosts = None
+        self.links = None
+        self.content = None
+
         return
 
     def getnodeinfo(self):
@@ -20,12 +28,12 @@ class HttpJsonHandler:
         Get the List of nodes available in the network
         '''
         print(REST_URL_FOR_NODE)
-        resp, content = h.request(REST_URL_FOR_NODE, 'GET')
-        nodes = json.loads(content.decode())
+        self.resp, self.content = h.request(REST_URL_FOR_NODE, 'GET')
+        nodes = json.loads(self.content.decode())
 
         return nodes
 
-    def getflowinfo (self):
+    def getflowinfo (self, switchid):
         global h
         h = httplib2.Http(".cache")
         h.add_credentials('admin', 'admin')
@@ -33,11 +41,12 @@ class HttpJsonHandler:
         '''
         Get the List of flows available in the network
         '''
-        print(REST_URL_FOR_FLOW)
-        resp, content = h.request(REST_URL_FOR_FLOW, 'GET')
-        flows = json.loads(content.decode())
+        flow_rest_url = REST_URL_FOR_FLOW + switchid
+        print(flow_rest_url)
+        self.resp, self.content = h.request(flow_rest_url, 'GET')
+        self.flows = json.loads(self.content.decode())
 
-        return flows
+        return self.flows
 
     def getportinfo(self, switchid):
         global h
