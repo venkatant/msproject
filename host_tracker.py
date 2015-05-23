@@ -7,12 +7,12 @@ from json_http_handler import *
 
 class HostTracker:
     def __init__(self):
-        switch_id   = 0
-        port_id     = 0
-        port_mac    = '00:00:00:00:00:00'
-        port_ip     = '0.0.0.0'
-        port_vlan   = 0
-        static_host = FALSE
+        self.switch_id = 0
+        self.port_id = 0
+        self.port_mac = '00:00:00:00:00:00'
+        self.port_ip = '0.0.0.0'
+        self.port_vlan = 0
+        self.static_host = FALSE
 
     def updatehost(self, switchId, portNo, portMac, portIp, portVlan, statisHost):
         self.switch_id   = switchId
@@ -39,6 +39,7 @@ class HostTracker:
 def hosttracker():
     toplevel = Toplevel()
     toplevel.title("Host Tracker")
+    toplevel.geometry("800x400")
 
     '''
     scrollbar = Scrollbar(toplevel)
@@ -88,11 +89,14 @@ def hosttracker():
 
         host_list.append(host_tracker_obj)
 
-        no_of_hosts = no_of_hosts + 1
+        no_of_hosts=no_of_hosts+1
 
         #host_tracker_obj.displayhostinfo()
     for host1 in host_list:
         print(host1)
+
+    label= Label(toplevel, text="List of Switches Available", fg = "red", bg = "white")
+    label.grid(columnspan=10)
 
     e = Entry(toplevel, relief=RIDGE)
     e.grid(row=0, column=0, sticky=NSEW)
@@ -100,14 +104,14 @@ def hosttracker():
     rows = []
     for i in range(no_of_hosts+1):
         cols = []
+
         for j in range(6):
-
-            e = Entry(toplevel, relief=RIDGE)
-            e.grid(row=i, column=j, sticky=NSEW)
-
             if i == 0:
+                e = Entry(toplevel, relief=RIDGE, width=15, fg="red")
+                e.grid(row=i, column=j, sticky=NSEW)
+
                 if j == 0:
-                    e.insert(END, "  Switch ID")
+                    e.insert(END, "  Switch ID" )
                 elif j == 1:
                     e.insert(END, "  Port ID")
                 elif j == 2:
@@ -120,6 +124,9 @@ def hosttracker():
                     e.insert(END, "  Static Host")
             else:
                 #e.insert(END, '%d.%d' % (i, j))
+                e = Entry(toplevel, relief=RIDGE, width=15)
+                e.grid(row=i, column=j, sticky=NSEW)
+
                 if (j == 0):
                     e.insert(END, '%s' % host_list[i-1].switch_id)
                 if (j == 1):

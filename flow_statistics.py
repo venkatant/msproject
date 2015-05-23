@@ -96,7 +96,7 @@ def flowstatistics():
 
     obj.toplevel = Toplevel()
     obj.toplevel.title("Flow Statistics Per Switch")
-    obj.toplevel.geometry("500x200")
+    obj.toplevel.geometry("750x500")
 
     '''
     Create an object of Http JSON Handler Class to receive

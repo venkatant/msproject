@@ -57,6 +57,7 @@ class PortTableStatistics:
 def portstatistics():
     toplevel = Toplevel()
     toplevel.title("Port Statistics")
+    toplevel.geometry("750x500")
 
     '''
     Create an object of Http JSON Handler Class to receive
@@ -118,10 +119,10 @@ def portstatistics():
                 cols = []
                 for j in range(8):
 
-                    e = Entry(toplevel, relief=RIDGE, width=15)
-                    e.grid(row=i, column=j, sticky=NSEW)
-
                     if i == 0:
+                        e = Entry(toplevel, relief=RIDGE, width=15, fg="red")
+                        e.grid(row=i, column=j, sticky=NSEW)
+
                         if j == 0:
                             e.insert(END, "  Switch ID")
                         elif j == 1:
@@ -139,6 +140,9 @@ def portstatistics():
                         elif j == 7:
                             e.insert(END, "  No Of Tx Drops")
                     else:
+                        e = Entry(toplevel, relief=RIDGE, width=15)
+                        e.grid(row=i, column=j, sticky=NSEW)
+
                         #e.insert(END, '%d.%d' % (i, j))
                         if (j == 0):
                             e.insert(END, '%s' % portTableList[i-1].switchId)

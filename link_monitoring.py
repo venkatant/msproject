@@ -46,6 +46,7 @@ def linkfaultmenu():
 
     toplevel = Toplevel()
     toplevel.title("Node Monitoring")
+    toplevel.geometry("750x500")
 
     '''
     Create an object of Http JSON Handler Class to receive
@@ -89,38 +90,57 @@ def linkfaultmenu():
                 # Append the Object to the flow table List
                 flowTableList.append(obj)
 
-    rows = []
     for i in range(position):
-
         print(flowTableList[i].switchId, flowTableList[i].portName, flowTableList[i].portStatus,
               flowTableList[i].bandwidth)
 
-        if (flowTableList[i].switchId != None):
+    rows = []
+    for i in range(position+1):
+
             cols = []
             for j in range(4):
-                e = Entry(toplevel, relief=RIDGE)
-                e.grid(row=i, column=j, sticky=NSEW)
-                # e.insert(END, '%d.%d' % (i, j))
-                if (j == 0):
-                    e.insert(END, '%s' % flowTableList[i].switchId)
-                if (j == 1):
-                    e.insert(END, '%s' % flowTableList[i].portName)
-                if (j == 2):
-                    e.insert(END, '%s' % flowTableList[i].portStatus)
-                if (j == 3):
-                    e.insert(END, '%s' % flowTableList[i].bandwidth)
-                cols.append(e)
-    rows.append(cols)
+
+                if i == 0:
+                    e = Entry(toplevel, relief=RIDGE, width=15, fg="red")
+                    e.grid(row=i, column=j, sticky=NSEW)
+
+                    if j == 0:
+                        e.insert(END, "  Switch ID")
+                    elif j == 1:
+                        e.insert(END, "  Port ID")
+                    elif j == 2:
+                        e.insert(END, "  Link Status")
+                    elif j == 3:
+                        e.insert(END, "  Bandwidth")
+
+                else:
+                    e = Entry(toplevel, relief=RIDGE)
+                    e.grid(row=i, column=j, sticky=NSEW)
+
+                    if j == 0:
+                        e.insert(END, '%s' % flowTableList[i-1].switchId)
+                    if j == 1:
+                        e.insert(END, '%s' % flowTableList[i-1].portName)
+                    if j == 2:
+                        if 1 == flowTableList[i-1].portStatus:
+                            e.insert(END, '%s' % "UP")
+                        else:
+                            e.insert(END, '%s' % "DOWN")
+                            e.configure(fg="red")
+                    if j == 3:
+                        e.insert(END, '%s' % flowTableList[i-1].bandwidth)
+                        cols.append(e)
+            rows.append(cols)
 
     obj = LinkTables()
 
     Checkbutton(toplevel, text="Send E-Mail", variable=obj.check_gmail, command=obj.send_mail).grid(row=50, sticky=W)
     Checkbutton(toplevel, text="Send Trap", variable=obj.check_snmp, command=obj.send_trap).grid(row=51, stick=W)
 
-    Radiobutton(toplevel, text="1 Sec ", variable=obj.var, value=1, command=obj.mradioselect).grid(row=52, column=0, stick=W)
-    Radiobutton(toplevel, text="5 Sec ", variable=obj.var, value=5, command=obj.mradioselect).grid(row=52, column=1, stick=W)
-    Radiobutton(toplevel, text="10 Sec", variable=obj.var, value=10, command=obj.mradioselect).grid(row=52, column=2, stick=W)
-    Radiobutton(toplevel, text="30 Sec", variable=obj.var, value=30, command=obj.mradioselect).grid(row=52, column=3, stick=W)
+    Radiobutton(toplevel, text="1 Sec ", variable=obj.var, value=1, command=obj.mradioselect).grid(row=52, column=0, sticky=W)
+    Radiobutton(toplevel, text="5 Sec ", variable=obj.var, value=5, command=obj.mradioselect).grid(row=52, column=1, sticky=W)
+    Radiobutton(toplevel, text="10 Sec", variable=obj.var, value=10, command=obj.mradioselect).grid(row=52, column=2, sticky=W)
+    Radiobutton(toplevel, text="30 Sec", variable=obj.var, value=30, command=obj.mradioselect).grid(row=52, column=3, sticky=W)
     print()
 
     return
