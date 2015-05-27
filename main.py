@@ -2,7 +2,7 @@ __author__ = 'venkat'
 
 import tkinter
 from host_tracker import *
-from link_monitoring import *
+from node_monitoring import *
 from port_statistics import *
 from flow_statistics import *
 
@@ -61,9 +61,9 @@ def start():
     mainMenu.add_cascade(label="Fault Monitoring", menu=faultMenu)
 
     # Command add functionality once we select the object in drop down list
-    faultMenu.add_command(label="Node Status", command=linkfaultmenu)
+    faultMenu.add_command(label="Node Status", command=mLinkFaultMenu)
     faultMenu.add_separator()
-    faultMenu.add_command(label="Link Status", command=mLinkFaultMenu)
+    faultMenu.add_command(label="Link Status", command=linkfaultmenu)
 
     # SubMenu which is now 'Configuration'
     configMenu = Menu(mainMenu)

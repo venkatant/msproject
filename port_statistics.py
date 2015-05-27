@@ -80,11 +80,11 @@ def portstatistics():
     for node in json_nodes['nodeProperties']:
         json_ports = http_obj.getportinfo(node['node']['id'])
 
-        #print(json.dumps(json_ports))
-        #print(json_ports['node']) # This will print Info belongs to each port of the Node
+        print(json.dumps(json_ports))
+        print(json_ports['node']) # This will print Info belongs to each port of the Node
 
         for portCount in json_ports['portStatistic']:
-            #print(portCount['nodeConnector']['node']['id'], portCount['nodeConnector']['id'])
+            print(portCount['nodeConnector']['node']['id'], portCount['nodeConnector']['id'])
 
             # Create an instance of PortTableStatistics class
             obj = PortTableStatistics()
@@ -106,7 +106,7 @@ def portstatistics():
             # Append the Object to the port  table List
             portTableList.append(obj)
 
-            #obj.displayportstatistics()
+            obj.displayportstatistics()
 
             e = Entry(toplevel, relief=RIDGE)
             e.grid(row=0, column=0, sticky=NSEW)

@@ -9,9 +9,9 @@ h = httplib2.Http(".cache")
 h.add_credentials('admin', 'admin')
 
 # Get the List of nodes available in the network
-resp,content = h.request('http://127.0.0.1:8080/controller/nb/v2/statistics/default/flow/node/OF/00:00:00:00:00:00:00:02', 'GET')
+resp,content = h.request('http://127.0.0.1:8080/controller/nb/v2/switchmanager/default/node/OF/00:00:00:00:00:00:00:01', 'GET')
 nodes = json.loads(content.decode())
-#print(json.dumps(nodes))
+print(json.dumps(nodes))
 print(json.dumps(nodes, sort_keys=True, indent=2))
 
 

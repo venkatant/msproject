@@ -41,30 +41,6 @@ def hosttracker():
     toplevel.title("Host Tracker")
     toplevel.geometry("800x400")
 
-    '''
-    scrollbar = Scrollbar(toplevel)
-    nodelistbox = Listbox(toplevel, yscrollcommand=scrollbar.set)
-
-    Create an object of Http JSON Handler Class to receive resp from
-    respective Rest URL's
-
-
-    http_obj = HttpJsonHandler()
-    json_node = http_obj.getnodeinfo()
-
-    for node in json_node['nodeProperties']:
-        nodelistbox.insert(END,  node['node']['id'])
-
-    nodelistbox.pack(side=LEFT, fill=BOTH)
-    scrollbar.pack(side=LEFT, fill=Y)
-    scrollbar.config(command=nodelistbox.yview)
-
-    host_tracker_obj = HostTracker()
-
-    submit = Button(toplevel, text="Submit", command=host_tracker_obj.curselect())
-    #submit.pack()
-    '''
-
     print("---------START--------------")
     '''
     Create an object of Http JSON Handler Class to receive resp from
@@ -91,11 +67,11 @@ def hosttracker():
 
         no_of_hosts=no_of_hosts+1
 
-        #host_tracker_obj.displayhostinfo()
+        host_tracker_obj.displayhostinfo()
     for host1 in host_list:
         print(host1)
 
-    label= Label(toplevel, text="List of Switches Available", fg = "red", bg = "white")
+    label=Label(toplevel, text="List of Switches Available", fg="red", bg="white")
     label.grid(columnspan=10)
 
     e = Entry(toplevel, relief=RIDGE)

@@ -1,25 +1,29 @@
 from tkinter import*
-root=Tk()
-sizex = 600
-sizey = 400
-posx  = 40
-posy  = 20
-root.wm_geometry("%dx%d+%d+%d" % (sizex, sizey, posx, posy))
-itemsforlistbox=['one','two','three','four','five','six','seven']
+import tkinter
 
-def CurSelet(evt):
-    mylistbox = evt.widget
-    value=str((mylistbox.get(mylistbox.curselection())))
-    print(value)
+root = Tk()
 
-def mylist():
-    mylistbox=Listbox(root,width=60,height=10,font=('times',13))
-    mylistbox.bind('<<ListboxSelect>>',CurSelet)
-    mylistbox.place(x=32,y=90)
-
-    for items in itemsforlistbox:
-        mylistbox.insert(END,items)
-
-mylist()
-
+def grid():
+   i = 0
+   rows = []
+   for i in range(5):
+        cols = []
+        for j in range(4):
+            e = Entry(root, relief=RIDGE)
+            e.grid(row=i, column=j, sticky=NSEW)
+            e.insert(END, '%d.%d' % (i, j))
+            cols.append(e)
+        rows.append(cols)
+   e.after(5000, grid)
+grid()
 root.mainloop()
+
+'''
+import tkinter
+root = tkinter.Tk()
+for r in range(3):
+    for c in range(4):
+        tkinter.Label(root, text='|R%s/C%s'%(r,c),
+            borderwidth=1 ).grid(row=r,column=c)
+root.mainloop()
+'''

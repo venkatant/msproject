@@ -45,7 +45,7 @@ class LinkTables:
 def linkfaultmenu():
 
     toplevel = Toplevel()
-    toplevel.title("Node Monitoring")
+    toplevel.title("Link Monitoring")
     toplevel.geometry("750x500")
 
     '''
