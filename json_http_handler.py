@@ -1,10 +1,8 @@
 __author__ = 'venkat'
 
-
 import httplib2
 import json
 from rest_url_database import *
-
 
 class HttpJsonHandler:
     def __init__(self):

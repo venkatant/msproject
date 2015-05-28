@@ -148,5 +148,5 @@ def display(toplevel):
         for column in range(4):
             toplevel.grid_columnconfigure(column, weight=1)
 
-    toplevel.after(1000,display,toplevel)
+    toplevel.after(5000,display,toplevel)
     return
