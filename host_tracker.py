@@ -71,51 +71,46 @@ def hosttracker():
     for host1 in host_list:
         print(host1)
 
-    label=Label(toplevel, text="List of Switches Available", fg="red", bg="white")
-    label.grid(columnspan=10)
+    # sort the list with switch_is as Key
+    host_list.sort(key=lambda host:host.switch_id)
 
-    e = Entry(toplevel, relief=RIDGE)
-    e.grid(row=0, column=0, sticky=NSEW)
+    for row in range(no_of_hosts+1):
+        current_row = []
+        for column in range(6):
 
-    rows = []
-    for i in range(no_of_hosts+1):
-        cols = []
+            if row==0:
+                if column == 0:
+                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=15, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                elif column == 1:
+                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                elif column == 2:
+                    label = Label(toplevel, text="Port MAC", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                elif column == 3:
+                    label = Label(toplevel, text="Port IP", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                elif column == 4:
+                    label = Label(toplevel, text="Port VLAN", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                elif column == 5:
+                    label = Label(toplevel, text="Static Host", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
 
-        for j in range(6):
-            if i == 0:
-                e = Entry(toplevel, relief=RIDGE, width=15, fg="red")
-                e.grid(row=i, column=j, sticky=NSEW)
-
-                if j == 0:
-                    e.insert(END, "  Switch ID" )
-                elif j == 1:
-                    e.insert(END, "  Port ID")
-                elif j == 2:
-                    e.insert(END, "  Port MAC")
-                elif j == 3:
-                    e.insert(END, "  Port TP")
-                elif j == 4:
-                    e.insert(END, "  Port Vlan")
-                elif j == 5:
-                    e.insert(END, "  Static Host")
             else:
-                #e.insert(END, '%d.%d' % (i, j))
-                e = Entry(toplevel, relief=RIDGE, width=15)
-                e.grid(row=i, column=j, sticky=NSEW)
+                if column == 0:
+                    label = Label(toplevel, text="%s" % host_list[row-1].switch_id, borderwidth=0, width=15)
+                elif column == 1:
+                    label = Label(toplevel, text="%s" % host_list[row-1].port_id, borderwidth=0, width=10)
+                elif column == 2:
+                    label = Label(toplevel, text="%s" % host_list[row-1].port_mac, borderwidth=0, width=10)
+                elif column == 3:
+                    label = Label(toplevel, text="%s" % host_list[row-1].port_ip, borderwidth=0, width=10)
+                elif column == 4:
+                    label = Label(toplevel, text="%s" % host_list[row-1].port_vlan, borderwidth=0, width=10)
+                elif column == 5:
+                    label = Label(toplevel, text="%s" % host_list[row-1].static_host, borderwidth=0, width=10)
 
-                if (j == 0):
-                    e.insert(END, '%s' % host_list[i-1].switch_id)
-                if (j == 1):
-                    e.insert(END, '%s' % host_list[i-1].port_id)
-                if (j == 2):
-                    e.insert(END, '%s' % host_list[i-1].port_mac)
-                if (j == 3):
-                    e.insert(END, '%s' % host_list[i-1].port_ip)
-                if (j == 4):
-                    e.insert(END, '%s' % host_list[i-1].port_vlan)
-                if (j == 5):
-                    e.insert(END, '%s' % host_list[i-1].static_host)
-            cols.append(e)
-        rows.append(cols)
+                label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                label.configure(bg="white")
+                current_row.append(label)
+
+        for column in range(6):
+            toplevel.grid_columnconfigure(column, weight=1)
 
     return

@@ -15,6 +15,7 @@ class LinkTables:
         self.portStatus = status
         self.bandwidth = bw
 
+
     def updatelinkstatus(self, switch, port, status, bw):
         self.switchId = switch
         self.portName = port
