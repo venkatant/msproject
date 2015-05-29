@@ -3,6 +3,7 @@ __author__ = 'venkat'
 
 from header import *
 from json_http_handler import *
+from snmp_trap_generator import *
 from gmail import  *
 
 
@@ -26,7 +27,7 @@ class RadioButton:
 
     def send_trap(self):
         print("SNMP", self.check_snmp.get())
-        return
+        return self.check_snmp.get()
 
 class LinkTables:
     def __init__(self, switch=None, port=None, status=None, bw=None):
@@ -158,8 +159,9 @@ def display(toplevel, rb_obj):
                         label.configure(fg="red")
 
                     # Send E-Mail once per failure
-                    if flowTableList[row-1].email_notify == 0 and rb_obj.check_gmail.get() == 1 and 0 == flowTableList[row-1].portStatus:
+                    if flowTableList[row-1].email_notify == 0 and rb_obj.check_snmp.get() == 1 and 0 == flowTableList[row-1].portStatus:
                         print("Sending Failure Notification")
+                        snmpTrapGenerator().fireTrap('Hello')
                         #send_email("PORT LINK STATUS DOWN")
                         flowTableList[row-1].email_notify = 1
 

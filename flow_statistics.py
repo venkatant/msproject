@@ -27,6 +27,7 @@ class FlowTable:
         return
 
     def displayflowtable(self):
+        print("=====================================")
         print(self.dest_ip,
               self.dest_mask,
               self.dest_Mac,
