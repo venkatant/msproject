@@ -65,7 +65,7 @@ def hosttracker():
 
         host_list.append(host_tracker_obj)
 
-        no_of_hosts=no_of_hosts+1
+        no_of_hosts += 1
 
         host_tracker_obj.displayhostinfo()
     for host1 in host_list:

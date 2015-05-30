@@ -92,18 +92,16 @@ def display(toplevel):
             obj = PortTableStatistics()
 
             # Update the content in the newly created Object
-            obj.updateportstatistics(
-                                     portCount['nodeConnector']['node']['id'],
+            obj.updateportstatistics(portCount['nodeConnector']['node']['id'],
                                      portCount['nodeConnector']['id'],
                                      portCount['receivePackets'],
                                      portCount['receiveBytes'],
                                      portCount['receiveDrops'],
                                      portCount['transmitPackets'],
                                      portCount['transmitBytes'],
-                                     portCount['transmitErrors']
-                                     )
+                                     portCount['transmitErrors'])
 
-            no_of_ports = no_of_ports + 1
+            no_of_ports += 1
 
             # Append the Object to the port  table List
             portTableList.append(obj)
@@ -111,13 +109,13 @@ def display(toplevel):
             obj.displayportstatistics()
 
     # sort the list with switch_is as Key
-    portTableList.sort(key=lambda host:host.switchId)
+    portTableList.sort(key=lambda host: host.switchId)
 
     for row in range(no_of_ports+1):
         current_row = []
         for column in range(8):
 
-            if row==0:
+            if row == 0:
                 if column == 0:
                     label = Label(toplevel, text="Switch ID", borderwidth=0, width=25, fg="red")
                 elif column == 1:

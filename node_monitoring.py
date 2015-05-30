@@ -3,8 +3,8 @@ __author__ = 'venkat'
 
 from header import *
 from json_http_handler import *
-# from snmp_trap_generator import *
-from gmail import  *
+from snmp_trap_generator import *
+from gmail import *
 
 
 class RadioButton:
@@ -29,6 +29,7 @@ class RadioButton:
         print("SNMP", self.check_snmp.get())
         return self.check_snmp.get()
 
+
 class LinkTables:
     def __init__(self, switch=None, port=None, status=None, bw=None):
 
@@ -36,7 +37,7 @@ class LinkTables:
         self.portName = port
         self.portStatus = status
         self.bandwidth = bw
-        self.email_notify=0
+        self.email_notify = 0
 
     def updatelinkstatus(self, switch, port, status, bw):
         self.switchId = switch
@@ -61,17 +62,31 @@ def linkfaultmenu():
     toplevel.title("Link Monitoring")
     toplevel.geometry("750x300")
 
+    row = 0
+    for column in range(4):
+        if 0 == column:
+            label = Label(toplevel, text="Switch ID", borderwidth=0, width=10, fg="red")
+        elif 1 == column:
+            label = Label(toplevel, text="Port ID  ", borderwidth=0, width=10, fg="red")
+        elif 2 == column:
+            label = Label(toplevel, text="Link Status", borderwidth=0, width=10, fg="red")
+        elif 3 == column:
+            label = Label(toplevel, text="Bandwidth ", borderwidth=0, width=10, fg="red")
+
+        label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+        label.configure(bg="white")
+
     rb_obj = RadioButton()
 
     Checkbutton(toplevel, text="Send E-Mail", variable=rb_obj.check_gmail, command=rb_obj.send_mail).grid(row=50, sticky=W)
     Checkbutton(toplevel, text="Send Trap", variable=rb_obj.check_snmp, command=rb_obj.send_trap).grid(row=51, stick=W)
 
     Radiobutton(toplevel, text="1 Sec ", variable=rb_obj.refresh_interval, value=1, command=rb_obj.m_radioselect).grid(row=52, column=0, sticky=W)
-    Radiobutton(toplevel, text="5 Sec ", variable=rb_obj.refresh_interval, indicatoron = 1, value=5, command=rb_obj.m_radioselect).grid(row=52, column=1, sticky=W)
-    Radiobutton(toplevel, text="10 Sec", variable=rb_obj.refresh_interval, value=10, command=rb_obj.m_radioselect).grid(row=52, column=2, sticky=W)
+    Radiobutton(toplevel, text="5 Sec ", variable=rb_obj.refresh_interval, value=5, command=rb_obj.m_radioselect).grid(row=52, column=1, sticky=W)
+    Radiobutton(toplevel, text="10 Sec", variable=rb_obj.refresh_interval, indicatoron=1, value=10, command=rb_obj.m_radioselect).grid(row=52, column=2, sticky=W)
     Radiobutton(toplevel, text="30 Sec", variable=rb_obj.refresh_interval, value=30, command=rb_obj.m_radioselect).grid(row=52, column=3, sticky=W)
 
-    rb_obj.refresh_interval.set(5)
+    rb_obj.refresh_interval.set(10)
 
     display(toplevel, rb_obj)
 
@@ -80,9 +95,8 @@ def linkfaultmenu():
 
 def display(toplevel, rb_obj):
 
-    '''
-    Create an object of Http JSON Handler Class to receive resp from respective Rest URL's
-    '''
+    ''' Create an object of Http JSON Handler Class to receive resp from respective Rest URLs '''
+
     http_obj = HttpJsonHandler()
     json_nodes = http_obj.getnodeinfo()
 
@@ -97,7 +111,7 @@ def display(toplevel, rb_obj):
 
         no_of_links_per_node = 0
         for flowCount in json_link['nodeConnectorProperties']:
-            #print(flowCount['nodeconnector'])
+            # print(flowCount['nodeconnector'])
             no_of_links_per_node = no_of_links_per_node + 1
 
         # print('-----------------------LINK INFO--------------------------')
@@ -117,7 +131,7 @@ def display(toplevel, rb_obj):
 
                 # print((pos, position, json_link['nodeConnectorProperties'][pos]['nodeconnector']['id']))
 
-                position = position + 1
+                position += 1
 
                 # Append the Object to the flow table List
                 flowTableList.append(obj)
@@ -128,32 +142,18 @@ def display(toplevel, rb_obj):
               flowTableList[i].bandwidth)
     '''
     # sort the list with switch_is as Key
-    flowTableList.sort(key=lambda host:host.switchId)
+    flowTableList.sort(key=lambda host: host.switchId)
 
     for row in range(position+1):
         current_row = []
         for column in range(4):
 
-            if row == 0:
-
-                if column == 0:
-                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=10, fg="red")
-                elif column == 1:
-                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red")
-                elif column == 2:
-                    label = Label(toplevel, text="Link Status", borderwidth=0, width=10, fg="red")
-                elif column == 3:
-                    label = Label(toplevel, text="Bandwidth", borderwidth=0, width=10, fg="red")
-
-                label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
-                label.configure(bg="white")
-
-            else:
-                if column == 0:
+            if row != 0:
+                if 0 == column:
                     label = Label(toplevel, text="%s" % flowTableList[row-1].switchId, borderwidth=0, width=10)
-                elif column == 1:
+                elif 1 == column:
                     label = Label(toplevel, text="%s" % flowTableList[row-1].portName, borderwidth=0, width=10)
-                elif column == 2:
+                elif 2 == column:
                     if 1 == flowTableList[row-1].portStatus:
                         status = "UP"
                     else:
@@ -164,13 +164,15 @@ def display(toplevel, rb_obj):
                         label.configure(fg="red")
 
                     # Send E-Mail once per failure
-                    if flowTableList[row-1].email_notify == 0 and rb_obj.check_snmp.get() == 1 and 0 == flowTableList[row-1].portStatus:
+                    if 0 == flowTableList[row-1].portStatus and 1 == rb_obj.send_trap():
                         print("Sending Failure Notification")
-                        #SnmpTrapGenerator().send_snmp_trap('Hello')
-                        #send_email("PORT LINK STATUS DOWN")
+                        SnmpTrapGenerator().send_snmp_trap('Hello')
+
+                    if 0 == flowTableList[row-1].portStatus and 1 == rb_obj.send_mail():
+                        send_email("PORT LINK STATUS DOWN")
                         flowTableList[row-1].email_notify = 1
 
-                elif column == 3:
+                elif 3 == column:
                     label = Label(toplevel, text="%s" % flowTableList[row-1].bandwidth, borderwidth=0, width=10)
 
                 label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
