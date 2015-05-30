@@ -110,12 +110,6 @@ def display(toplevel):
 
             obj.displayportstatistics()
 
-            e = Entry(toplevel, relief=RIDGE)
-            e.grid(row=0, column=0, sticky=NSEW)
-
-            #switchId = portCount['nodeConnector']['node']['id']
-            #portId = portCount['nodeConnector']['id']
-
     # sort the list with switch_is as Key
     portTableList.sort(key=lambda host:host.switchId)
 
@@ -125,25 +119,27 @@ def display(toplevel):
 
             if row==0:
                 if column == 0:
-                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=15, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=25, fg="red")
                 elif column == 1:
-                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red")
                 elif column == 2:
-                    label = Label(toplevel, text="No Of Rx Pkts", borderwidth=0, width=14, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="No Of Rx Pkts", borderwidth=0, width=14, fg="red")
                 elif column == 3:
-                    label = Label(toplevel, text="No Of Rx Bytes", borderwidth=0, width=14, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="No Of Rx Bytes", borderwidth=0, width=14, fg="red")
                 elif column == 4:
-                    label = Label(toplevel, text="No Of Rx Drops", borderwidth=0, width=14, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="No Of Rx Drops", borderwidth=0, width=14, fg="red")
                 elif column == 5:
-                    label = Label(toplevel, text="No Of Tx Pkts", borderwidth=0, width=14, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="No Of Tx Pkts", borderwidth=0, width=14, fg="red")
                 elif column == 6:
-                    label = Label(toplevel, text="No Of Tx Bytes", borderwidth=0, width=14, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="No Of Tx Bytes", borderwidth=0, width=14, fg="red")
                 elif column == 7:
-                    label = Label(toplevel, text="No Of Tx Drops", borderwidth=0, width=14, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="No Of Tx Drops", borderwidth=0, width=14, fg="red")
+                label.configure(bg="white")
+                label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
 
             else:
                 if column == 0:
-                    label = Label(toplevel, text="%s" % portTableList[row-1].switchId, borderwidth=0, width=15)
+                    label = Label(toplevel, text="%s" % portTableList[row-1].switchId, borderwidth=0, width=25)
                 elif column == 1:
                     label = Label(toplevel, text="%s" % portTableList[row-1].portId, borderwidth=0, width=10)
                 elif column == 2:

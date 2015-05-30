@@ -3,7 +3,7 @@ __author__ = 'venkat'
 
 from header import *
 from json_http_handler import *
-from snmp_trap_generator import *
+# from snmp_trap_generator import *
 from gmail import  *
 
 
@@ -134,15 +134,20 @@ def display(toplevel, rb_obj):
         current_row = []
         for column in range(4):
 
-            if row==0:
+            if row == 0:
+
                 if column == 0:
-                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=10, fg="red")
                 elif column == 1:
-                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red")
                 elif column == 2:
-                    label = Label(toplevel, text="Link Status", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Link Status", borderwidth=0, width=10, fg="red")
                 elif column == 3:
-                    label = Label(toplevel, text="Bandwidth", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Bandwidth", borderwidth=0, width=10, fg="red")
+
+                label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                label.configure(bg="white")
+
             else:
                 if column == 0:
                     label = Label(toplevel, text="%s" % flowTableList[row-1].switchId, borderwidth=0, width=10)
@@ -161,7 +166,7 @@ def display(toplevel, rb_obj):
                     # Send E-Mail once per failure
                     if flowTableList[row-1].email_notify == 0 and rb_obj.check_snmp.get() == 1 and 0 == flowTableList[row-1].portStatus:
                         print("Sending Failure Notification")
-                        snmpTrapGenerator().fireTrap('Hello')
+                        #SnmpTrapGenerator().send_snmp_trap('Hello')
                         #send_email("PORT LINK STATUS DOWN")
                         flowTableList[row-1].email_notify = 1
 

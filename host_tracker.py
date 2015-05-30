@@ -75,22 +75,27 @@ def hosttracker():
     host_list.sort(key=lambda host:host.switch_id)
 
     for row in range(no_of_hosts+1):
+
         current_row = []
+
         for column in range(6):
 
-            if row==0:
+            if row == 0:
                 if column == 0:
-                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=15, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Switch ID", borderwidth=0, width=15, fg="red")
                 elif column == 1:
-                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Port ID", borderwidth=0, width=10, fg="red")
                 elif column == 2:
-                    label = Label(toplevel, text="Port MAC", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Port MAC", borderwidth=0, width=10, fg="red")
                 elif column == 3:
-                    label = Label(toplevel, text="Port IP", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Port IP", borderwidth=0, width=10, fg="red")
                 elif column == 4:
-                    label = Label(toplevel, text="Port VLAN", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Port VLAN", borderwidth=0, width=10, fg="red")
                 elif column == 5:
-                    label = Label(toplevel, text="Static Host", borderwidth=0, width=10, fg="red").grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                    label = Label(toplevel, text="Static Host", borderwidth=0, width=10, fg="red")
+
+                label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                label.configure(bg="white")
 
             else:
                 if column == 0:
