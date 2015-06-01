@@ -39,7 +39,7 @@ class HostTracker:
 def hosttracker():
     toplevel = Toplevel()
     toplevel.title("Host Tracker")
-    toplevel.geometry("800x400")
+    toplevel.geometry("800x200")
 
     print("---------START--------------")
     '''

@@ -6,6 +6,9 @@ from json_http_handler import *
 from snmp_trap_generator import *
 from gmail import *
 
+email_state_db={}
+snmp_state_db={}
+
 
 class RadioButton:
     def __init__(self):
@@ -22,11 +25,11 @@ class RadioButton:
         return self.refresh_interval.get()
 
     def send_mail(self):
-        print("Mail", self.check_gmail.get())
+        # print("Mail", self.check_gmail.get())
         return self.check_gmail.get()
 
     def send_trap(self):
-        print("SNMP", self.check_snmp.get())
+        # print("SNMP", self.check_snmp.get())
         return self.check_snmp.get()
 
 
@@ -37,17 +40,12 @@ class LinkTables:
         self.portName = port
         self.portStatus = status
         self.bandwidth = bw
-        self.email_notify = 0
 
     def updatelinkstatus(self, switch, port, status, bw):
         self.switchId = switch
         self.portName = port
         self.portStatus = status
         self.bandwidth = bw
-
-        # Reset E-Mail Notify When the Link status is UP
-        if self.portStatus == 1:
-            self.email_notify = 0
 
     def printflowenties(self):
         print(self.switchId)
@@ -60,7 +58,7 @@ def linkfaultmenu():
 
     toplevel = Toplevel()
     toplevel.title("Link Monitoring")
-    toplevel.geometry("750x300")
+    toplevel.geometry("750x200")
 
     row = 0
     for column in range(4):
@@ -163,14 +161,40 @@ def display(toplevel, rb_obj):
                     if status == "DOWN":
                         label.configure(fg="red")
 
-                    # Send E-Mail once per failure
-                    if 0 == flowTableList[row-1].portStatus and 1 == rb_obj.send_trap():
-                        print("Sending Failure Notification")
-                        SnmpTrapGenerator().send_snmp_trap('Hello')
+                    switch = flowTableList[row-1].switchId
+                    port = flowTableList[row-1].portName
 
-                    if 0 == flowTableList[row-1].portStatus and 1 == rb_obj.send_mail():
-                        send_email("PORT LINK STATUS DOWN")
-                        flowTableList[row-1].email_notify = 1
+                    # Send E-Mail once per failure
+                    if 1 == rb_obj.send_mail():
+                        try:
+                            if email_state_db[switch, port] == 0 and "DOWN" == status:
+                                email_state_db.update({(switch, port): 1})
+                                send_email("PORT LINK STATUS DOWN")
+
+                            if "UP" == status:
+                                email_state_db.update({(switch, port): 0})
+                        except:
+                            if "DOWN" == status:
+                                email_state_db.update({(switch, port): 1})
+                                send_email("PORT LINK STATUS DOWN")
+                            else:
+                                email_state_db.update({(switch, port): 0})
+
+                    # Send SNMP-Trap once per failure
+                    if 1 == rb_obj.send_trap():
+                        try:
+                            if snmp_state_db[switch, port] == 0 and "DOWN" == status:
+                                snmp_state_db.update({(switch, port): 1})
+                                SnmpTrapGenerator().send_snmp_trap('Hello')
+
+                            if "UP" == status:
+                                snmp_state_db.update({(switch, port): 0})
+                        except:
+                            if "DOWN" == status:
+                                snmp_state_db.update({(switch, port): 1})
+                                SnmpTrapGenerator().send_snmp_trap('Hello')
+                            else:
+                                snmp_state_db.update({(switch, port): 0})
 
                 elif 3 == column:
                     label = Label(toplevel, text="%s" % flowTableList[row-1].bandwidth, borderwidth=0, width=10)

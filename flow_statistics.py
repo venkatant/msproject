@@ -127,8 +127,8 @@ class FlowStatistics:
         flow_list = []
 
         for flowCount in json_flows['flowStatistic']:
-            destIp = json_flows['flowStatistic'][no_of_flows]['flow']['match']['matchField'][1]['value']
-            destMask = json_flows['flowStatistic'][no_of_flows]['flow']['match']['matchField'][1]['mask']
+            destIp = json_flows['flowStatistic'][no_of_flows]['flow']['match']['matchField'][0]['value']
+            destMask = json_flows['flowStatistic'][no_of_flows]['flow']['match']['matchField'][0]['mask']
 
             destPort = 0
             destnode = '00:00:00:00:00:00:00:00'
@@ -176,7 +176,7 @@ def flowstatistics():
     '''
     toplevel = Toplevel()
     toplevel.title("Flow Monitoring")
-    toplevel.geometry("750x300")
+    toplevel.geometry("750x250")
 
     top_row = 0
     bottom_row = 0

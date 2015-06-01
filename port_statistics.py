@@ -57,7 +57,7 @@ class PortTableStatistics:
 def portstatistics():
     toplevel = Toplevel()
     toplevel.title("Port Statistics")
-    toplevel.geometry("900x500")
+    toplevel.geometry("900x250")
     display(toplevel)
 
 def display(toplevel):
