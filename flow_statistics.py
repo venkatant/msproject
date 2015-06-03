@@ -84,20 +84,21 @@ class FlowStatistics:
         bottom_frame = flow_window_obj.bottom_frame
         bottom_row = flow_window_obj.bottom_row
 
-        for row in range(4):
+        #for row in range(4):
+        for row in flow_list:
             current_row = []
 
             for column in range(5):
                 if column == 0:
-                    label = Label(bottom_frame, text="%s" % flow_list[row].dest_ip, borderwidth=0, width=15)
+                    label = Label(bottom_frame, text="%s" % row.dest_ip, borderwidth=0, width=15)
                 elif column == 1:
-                    label = Label(bottom_frame, text="%s" % flow_list[row].dest_mask, borderwidth=0, width=15)
+                    label = Label(bottom_frame, text="%s" % row.dest_mask, borderwidth=0, width=15)
                 elif column == 2:
-                    label = Label(bottom_frame, text="%s" % flow_list[row].dest_mac, borderwidth=0, width=15)
+                    label = Label(bottom_frame, text="%s" % row.dest_mac, borderwidth=0, width=15)
                 elif column == 3:
-                    label = Label(bottom_frame, text="%s" % flow_list[row].dest_port, borderwidth=0, width=15)
+                    label = Label(bottom_frame, text="%s" % row.dest_port, borderwidth=0, width=15)
                 elif column == 4:
-                    label = Label(bottom_frame, text="%s" % flow_list[row].dest_node, borderwidth=0, width=25)
+                    label = Label(bottom_frame, text="%s" % row.dest_node, borderwidth=0, width=25)
 
                 label.configure(bg="white")
                 label.grid(row=bottom_row, column=column, sticky="nsew", padx=1, pady=1)

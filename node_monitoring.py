@@ -134,25 +134,23 @@ def display(toplevel, rb_obj):
                 # Append the Object to the flow table List
                 flowTableList.append(obj)
 
-    '''
     for i in range(position):
         print(flowTableList[i].switchId, flowTableList[i].portName, flowTableList[i].portStatus,
               flowTableList[i].bandwidth)
-    '''
-    # sort the list with switch_is as Key
-    flowTableList.sort(key=lambda host: host.switchId)
 
-    for row in range(position+1):
+    # sort the list with switch_is as Key
+    #flowTableList.sort(key=lambda host: host.switchId)
+
+    for row in range(position):
         current_row = []
         for column in range(4):
 
-            if row != 0:
                 if 0 == column:
-                    label = Label(toplevel, text="%s" % flowTableList[row-1].switchId, borderwidth=0, width=10)
+                    label = Label(toplevel, text="%s" % flowTableList[row].switchId, borderwidth=0, width=10)
                 elif 1 == column:
-                    label = Label(toplevel, text="%s" % flowTableList[row-1].portName, borderwidth=0, width=10)
+                    label = Label(toplevel, text="%s" % flowTableList[row].portName, borderwidth=0, width=10)
                 elif 2 == column:
-                    if 1 == flowTableList[row-1].portStatus:
+                    if 1 == flowTableList[row].portStatus:
                         status = "UP"
                     else:
                         status = "DOWN"
@@ -161,22 +159,24 @@ def display(toplevel, rb_obj):
                     if status == "DOWN":
                         label.configure(fg="red")
 
-                    switch = flowTableList[row-1].switchId
-                    port = flowTableList[row-1].portName
+                    switch = flowTableList[row].switchId
+                    port = flowTableList[row].portName
 
                     # Send E-Mail once per failure
                     if 1 == rb_obj.send_mail():
                         try:
                             if email_state_db[switch, port] == 0 and "DOWN" == status:
                                 email_state_db.update({(switch, port): 1})
-                                send_email("PORT LINK STATUS DOWN")
+                                notification_msg = "Switch - " + switch + " Port : " + port + " Link Down"
+                                send_email(notification_msg)
 
                             if "UP" == status:
                                 email_state_db.update({(switch, port): 0})
                         except:
                             if "DOWN" == status:
+                                notification_msg = "Switch - " + switch + " Port : " + port + " Link Down"
                                 email_state_db.update({(switch, port): 1})
-                                send_email("PORT LINK STATUS DOWN")
+                                send_email(notification_msg)
                             else:
                                 email_state_db.update({(switch, port): 0})
 
@@ -185,21 +185,23 @@ def display(toplevel, rb_obj):
                         try:
                             if snmp_state_db[switch, port] == 0 and "DOWN" == status:
                                 snmp_state_db.update({(switch, port): 1})
-                                SnmpTrapGenerator().send_snmp_trap('Hello')
+                                notification_msg = "Switch - " + switch + " Port : " + port + " Link Down"
+                                SnmpTrapGenerator().send_snmp_trap(notification_msg)
 
                             if "UP" == status:
                                 snmp_state_db.update({(switch, port): 0})
                         except:
                             if "DOWN" == status:
                                 snmp_state_db.update({(switch, port): 1})
-                                SnmpTrapGenerator().send_snmp_trap('Hello')
+                                notification_msg = "Switch - " + switch + " Port : " + port + " Link Down"
+                                SnmpTrapGenerator().send_snmp_trap(notification_msg)
                             else:
                                 snmp_state_db.update({(switch, port): 0})
 
                 elif 3 == column:
-                    label = Label(toplevel, text="%s" % flowTableList[row-1].bandwidth, borderwidth=0, width=10)
+                    label = Label(toplevel, text="%s" % flowTableList[row].bandwidth, borderwidth=0, width=10)
 
-                label.grid(row=row, column=column, sticky="nsew", padx=1, pady=1)
+                label.grid(row=row+1, column=column, sticky="nsew", padx=1, pady=1)
                 label.configure(bg="white")
                 current_row.append(label)
 
